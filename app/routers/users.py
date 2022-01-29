@@ -1,12 +1,13 @@
 __all__ = []
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends
+from starlette import status
 from fastapi.responses import JSONResponse
 from tortoise.exceptions import IntegrityError
 
 import models
 import schemas
-from controllers import exceptions as exc
+import controllers.exceptions as exc
 from controllers.authentication import get_current_user, get_current_admin
 from controllers.security import get_password_hash
 

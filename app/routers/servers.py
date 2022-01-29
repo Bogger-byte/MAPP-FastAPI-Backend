@@ -1,15 +1,18 @@
 __all__ = []
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends
+from starlette import status
 from fastapi.responses import JSONResponse
 
-from controllers.authentication import authenticate_server, get_current_user, get_current_admin
 from tortoise.exceptions import IntegrityError
+
+from controllers.authentication import get_current_user, authorize_server, get_current_admin
+from controllers.security import get_password_hash
+from controllers import server_snapshot
+from controllers import exceptions as exc
 
 import schemas
 import models
-from controllers import server_snapshot, exceptions as exc
-from controllers.security import get_password_hash
 
 router = APIRouter()
 
@@ -31,7 +34,7 @@ async def create_server(
 
 @router.get("/me")
 async def get_my_server(
-        current_server: schemas.Server = Depends(authenticate_server)
+        current_server: schemas.Server = Depends(authorize_server)
 ) -> schemas.Server:
     return current_server
 
@@ -39,7 +42,7 @@ async def get_my_server(
 @router.patch("/me")
 async def update_my_server(
         updates: schemas.ServerUpdate,
-        current_server: schemas.Server = Depends(authenticate_server)
+        current_server: schemas.Server = Depends(authorize_server)
 ) -> JSONResponse:
     server_obj = await models.Server.get_or_none(id=current_server.id)
     if server_obj is None:
@@ -54,7 +57,7 @@ async def update_my_server(
 
 @router.delete("/me")
 async def delete_my_server(
-        current_server: schemas.Server = Depends(authenticate_server)
+        current_server: schemas.Server = Depends(authorize_server)
 ) -> JSONResponse:
     server_obj = await models.Server.get(id=current_server.id)
     if server_obj is None:

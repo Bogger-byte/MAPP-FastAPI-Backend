@@ -1,16 +1,15 @@
-__all__ = ["authenticate_user", "get_current_user", "get_current_admin", "authenticate_server"]
+__all__ = ["authenticate_user", "get_current_user", "get_current_admin", "authorize_server"]
 
 from datetime import datetime
 
 from fastapi import Depends, Query, Header
 from fastapi.security import OAuth2PasswordBearer
 
-import models
-import schemas
 from controllers import exceptions as exc
-
 from controllers.security import verify_password, decode_jwt
 
+import models
+import schemas
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
@@ -57,7 +56,7 @@ async def get_current_admin(
     return user
 
 
-async def authenticate_server(
+async def authorize_server(
         host: str = Query(..., regex=schemas.ip_validation_regex),
         api_key: str = Header(...)
 ) -> schemas.Server:

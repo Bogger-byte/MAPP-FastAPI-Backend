@@ -2,15 +2,16 @@ __all__ = []
 
 import os.path
 
-from fastapi import APIRouter, Query, Depends, Body, File, status
+from fastapi import APIRouter, Query, Depends, Body, File
+from starlette import status
 from fastapi.responses import JSONResponse, FileResponse
 
 import models
-from controllers.authentication import authenticate_server
-import controllers.exceptions as exc
-from controllers import server_snapshot
-
 import schemas
+
+from controllers.authentication import authorize_server
+from controllers import exceptions as exc
+from controllers import server_snapshot
 
 
 router = APIRouter()
@@ -42,7 +43,7 @@ async def get_region_image(
 @router.post("/players-data")
 async def upload_players_data(
         players_data: schemas.PlayersData = Body(...),
-        current_server: schemas.Server = Depends(authenticate_server)
+        current_server: schemas.Server = Depends(authorize_server)
 ) -> JSONResponse:
     return JSONResponse(
         content="Data accepted",
@@ -56,7 +57,7 @@ async def upload_region_image(
         region_x: int,
         region_y: int,
         image: schemas.UploadPngFile = File(...),
-        current_server: schemas.Server = Depends(authenticate_server)
+        current_server: schemas.Server = Depends(authorize_server)
 ) -> JSONResponse:
     file_path = f"servers/regions/{current_server.id}/{world}_r.{region_x}.{region_y}.png"
     server_snapshot.save_image_file(file_path, image)

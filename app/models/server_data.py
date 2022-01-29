@@ -1,9 +1,7 @@
 __all__ = ["ServerData"]
 
 
-from rom import util, Model
-from rom import columns
-
+from rom import util, Model, columns
 
 util.set_connection_settings(host="localhost", db=1)
 

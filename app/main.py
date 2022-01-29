@@ -1,11 +1,11 @@
+__all__ = []
+
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 
 from routers import auth, users, servers, server
 from settings import DATABASE_URL, MODELS_FILE
-
 
 app = FastAPI()
 

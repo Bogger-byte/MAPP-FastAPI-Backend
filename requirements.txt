@@ -1,4 +1,12 @@
-fastapi>=0.68.0,<0.69.0
-pydantic>=1.8.0,<2.0.0
-uvicorn>=0.15.0,<0.16.0
+fastapi>=0.73.0
+starlette>=0.18.0
+uvicorn==0.17.1
+python-multipart==0.0.5
 
+pydantic>=1.9.0
+
+tortoise-orm==0.18.1
+rom>=1.0.4
+
+passlib>=1.7.4
+python-jose>=3.3.0
