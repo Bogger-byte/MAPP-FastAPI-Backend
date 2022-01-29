@@ -1,0 +1,7 @@
+DATABASE_URL = "sqlite://./database/user.db"
+
+MODELS_FILE = "models"
+
+JWT_SECRET_KEY = "SECRET"
+JWT_ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30

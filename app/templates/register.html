@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Item Details</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body onload=startServerDataLoop()>
+    <h1>Register page</h1>
+    <section>
+        <div class="register-stage-1">
+            <div class="input-field">
+                <span>Login</span>
+                <input type="text">
+            </div>
+            <div class="input-field">
+                <span>Password</span>
+                <input type="text">
+            </div>
+            <div class="input-field">
+                <span>Password Confirm</span>
+                <input type="text">
+            </div>
+            <div class="input-field">
+                <span>Captcha</span>
+                <input type="checkbox">
+            </div>
+        </div>
+        <div class="register-stage-2">
+            <div class="input-field">
+                <span>Acception code</span>
+                <input type="text">
+            </div>
+        </div>
+    </section>
+</body>
