@@ -1,6 +1,6 @@
 __all__ = ["ip_validation_regex", "ServerCreate", "ServerUpdate", "Server", "ServerDatabase"]
 
-from typing import Optional
+from typing import Optional, Type, Any
 
 import re
 from pydantic import BaseModel, EmailStr, validator
@@ -29,8 +29,8 @@ class ServerCreate(BaseModel):
     email: EmailStr
 
     @validator("host")
-    def validate_ip(cls, value: str) -> str:
-        return validate_ip(value)
+    def validate_ip(cls: Type["ServerCreate"], v: Any) -> str:
+        return validate_ip(v)
 
 
 class ServerUpdate(BaseModel):
@@ -40,8 +40,8 @@ class ServerUpdate(BaseModel):
     email: Optional[EmailStr] = None
 
     @validator("host")
-    def validate_ip(cls, value: str) -> str:
-        return validate_ip(value)
+    def validate_ip(cls: Type["ServerUpdate"], v: Any) -> str:
+        return validate_ip(v)
 
 
 ServerDatabase = pydantic_model_creator(

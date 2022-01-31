@@ -12,7 +12,7 @@ class Coordinates(BaseModel):
 class PlayerData(BaseModel):
     uuid: str
     is_force_visible: bool
-    nickname: str
+    name: str
     coordinates: Coordinates
 
 

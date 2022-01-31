@@ -1,4 +1,4 @@
-__all__ = ["authenticate_user", "get_current_user", "get_current_admin", "authorize_server"]
+__all__ = ["authorize_user", "get_current_user", "get_current_admin", "authorize_server"]
 
 from datetime import datetime
 
@@ -11,10 +11,11 @@ from controllers.security import verify_password, decode_jwt
 import models
 import schemas
 
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 
-async def authenticate_user(
+async def authorize_user(
         username: str,
         password: str
 ) -> schemas.User:

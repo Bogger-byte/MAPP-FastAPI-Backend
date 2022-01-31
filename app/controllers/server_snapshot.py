@@ -3,7 +3,7 @@ __all__ = ["prepare_dirs", "save_image_file"]
 import os
 import shutil
 
-import schemas
+from fastapi import UploadFile
 
 
 def prepare_dirs(server_uuid: str) -> None:
@@ -14,7 +14,7 @@ def prepare_dirs(server_uuid: str) -> None:
 
 def save_image_file(
         file_path: str,
-        image: schemas.UploadPngFile
+        image: UploadFile
 ) -> None:
     try:
         with open(file_path, "wb") as buffer:
