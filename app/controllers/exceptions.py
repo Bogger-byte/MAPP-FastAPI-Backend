@@ -25,7 +25,7 @@ forbidden_act_exception = HTTPException(
 
 validation_exception = HTTPException(
     detail={"msg": "Validation error"},
-    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+    status_code=status.HTTP_400_BAD_REQUEST
 )
 
 object_was_deleted = HTTPException(

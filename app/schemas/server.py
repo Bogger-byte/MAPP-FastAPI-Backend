@@ -1,5 +1,6 @@
 __all__ = ["ip_validation_regex", "ServerCreate", "ServerUpdate", "Server", "ServerDatabase"]
 
+import socket
 from typing import Optional, Type, Any
 
 import re
@@ -12,14 +13,17 @@ from models import Server
 ip_validation_regex = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
 
 
-def validate_ip(value: str) -> str:
+def validate_ip(value: object) -> str:
     if not isinstance(value, str):
-        raise ValueError("Ip address is not string")
-    regex = re.compile(ip_validation_regex, re.I)
-    match = regex.match(value)
-    if not bool(match):
-        raise ValueError("Invalid ip address")
-    return value
+        raise ValueError("Ip address is not string", value)
+
+    try:
+        socket.inet_aton(value)
+    except OSError:
+        raise ValueError("Invalid ip address", value)
+
+    else:
+        return value
 
 
 class ServerCreate(BaseModel):
