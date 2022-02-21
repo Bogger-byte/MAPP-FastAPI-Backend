@@ -1,11 +1,13 @@
 __all__ = ["PlayersData", "PlayerData", "Coordinates"]
 
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class Coordinates(BaseModel):
     x: int
-    y: int
+    y: Optional[int]
     z: int
 
 
