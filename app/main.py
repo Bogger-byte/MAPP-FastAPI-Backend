@@ -25,6 +25,6 @@ register_tortoise(
 )
 
 
-@app.get("/", response_class=FileResponse)
+@app.get("", response_class=FileResponse)
 async def index():
     return FileResponse("C:/dev/2021/app_MAPP/dist/index.html")
