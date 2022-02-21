@@ -1,27 +1,24 @@
-__all__ = ["ip_validation_regex", "ServerCreate", "ServerUpdate", "Server", "ServerDatabase"]
+__all__ = ["ServerCreate", "ServerUpdate", "Server", "ServerDatabase", "ip_validation_regex"]
 
 import socket
 from typing import Optional, Type, Any
 
-import re
 from pydantic import BaseModel, EmailStr, validator
 from tortoise.contrib.pydantic import pydantic_model_creator
 
 from models import Server
 
 
-ip_validation_regex = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+ip_validation_regex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
 
 
 def validate_ip(value: object) -> str:
     if not isinstance(value, str):
         raise ValueError("Ip address is not string", value)
-
     try:
         socket.inet_aton(value)
     except OSError:
         raise ValueError("Invalid ip address", value)
-
     else:
         return value
 
