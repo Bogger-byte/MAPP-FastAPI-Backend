@@ -1,11 +1,12 @@
 __all__ = ["ServerData"]
 
-
-from rom import util, Model, columns
-
-util.set_connection_settings(host="localhost", db=1)
+from redis import Redis
+from rom import Model, columns
 
 
 class ServerData(Model):
+    __conn = Redis(host="localhost", port=6379, db=1)
+
     id = columns.PrimaryKey()
     players_data = columns.Json(required=True)
+    online = columns.Boolean(required=True)
