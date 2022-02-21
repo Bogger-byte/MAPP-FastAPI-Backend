@@ -6,10 +6,10 @@ from fastapi.responses import JSONResponse
 
 from tortoise.exceptions import IntegrityError
 
-from controllers.authentication import get_current_user, authorize_server, get_current_admin
+from controllers.authentication import get_current_user, get_current_server, get_current_admin
 from controllers.security import get_password_hash
-from controllers import server_snapshot
 from controllers import exceptions as exc
+from controllers import servers_folder
 
 import schemas
 import models
@@ -28,13 +28,13 @@ async def create_server(
         server_obj = await models.Server.create(**server.dict(exclude_unset=True), owner=user_obj)
     except IntegrityError:
         raise exc.already_exist_exception
-    server_snapshot.prepare_dirs(server_obj.id)
+    servers_folder.create_new(server_obj.id)
     return await schemas.Server.from_tortoise_orm(server_obj)
 
 
 @router.get("/me")
 async def get_my_server(
-        current_server: schemas.Server = Depends(authorize_server)
+        current_server: schemas.Server = Depends(get_current_server)
 ) -> schemas.Server:
     return current_server
 
@@ -42,7 +42,7 @@ async def get_my_server(
 @router.patch("/me")
 async def update_my_server(
         updates: schemas.ServerUpdate,
-        current_server: schemas.Server = Depends(authorize_server)
+        current_server: schemas.Server = Depends(get_current_server)
 ) -> JSONResponse:
     server_obj = await models.Server.get_or_none(id=current_server.id)
     if server_obj is None:
@@ -57,7 +57,7 @@ async def update_my_server(
 
 @router.delete("/me")
 async def delete_my_server(
-        current_server: schemas.Server = Depends(authorize_server)
+        current_server: schemas.Server = Depends(get_current_server)
 ) -> JSONResponse:
     server_obj = await models.Server.get(id=current_server.id)
     if server_obj is None:
