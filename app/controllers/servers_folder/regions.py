@@ -1,9 +1,8 @@
 __all__ = ["process_mca_files"]
 
-import os
 import shutil
 
-import schemas
+from app import schemas
 
 
 def process_mca_files(
