@@ -13,7 +13,7 @@ class Scopes(Enum):
 
     @classmethod
     def value_of(cls: Type["Scopes"], scope_str: str) -> Union[Type["Scopes"], None]:
-        return {scope.value: scope for scope in cls}.get(scope_str)
+        return cls.dict().get(scope_str)
 
     @classmethod
     def dict(cls: Type["Scopes"]) -> dict[str, str]:
