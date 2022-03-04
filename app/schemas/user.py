@@ -6,7 +6,7 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 from pydantic import BaseModel
 from pydantic import EmailStr
 
-from models import User
+from app.models import User
 
 
 class UserCreate(BaseModel):
