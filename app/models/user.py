@@ -15,6 +15,3 @@ class User(Model):
     is_disabled = fields.BooleanField(default=False)
     is_verified = fields.BooleanField(default=False)
     is_super = fields.BooleanField(default=False)
-
-
-
