@@ -4,9 +4,9 @@ import os
 from pathlib import Path
 from typing import Union
 
-from . import regions
+from app.settings import SERVER_REGIONS, SERVER_CACHE, SERVER_LOGS
 
-from settings import SERVER_REGIONS, SERVER_CACHE, SERVER_LOGS
+from . import regions
 
 
 def create_new(server_uuid: str) -> None:
