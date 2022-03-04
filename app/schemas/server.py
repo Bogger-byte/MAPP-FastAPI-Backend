@@ -6,7 +6,7 @@ from typing import Optional, Type, Any
 from pydantic import BaseModel, EmailStr, validator
 from tortoise.contrib.pydantic import pydantic_model_creator
 
-from models import Server
+from app.models import Server
 
 
 ip_validation_regex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
