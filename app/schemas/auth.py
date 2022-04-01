@@ -3,21 +3,20 @@ __all__ = ["CredentialsValidationForm", "Scopes"]
 from enum import Enum
 from typing import Optional, Type, Union
 
-from fastapi import Form
+from fastapi import Form, HTTPException, status
 
 
 class Scopes(Enum):
-    SUPER_USER = "super-user"
-    DEFAULT_USER = "default-user"
-    MINECRAFT_SERVER = "minecraft-server"
+    DEFAULT_USER = "DEFAULT_USER"
+    MINECRAFT_SERVER = "MINECRAFT_SERVER"
 
     @classmethod
     def value_of(cls: Type["Scopes"], scope_str: str) -> Union[Type["Scopes"], None]:
-        return cls.dict().get(scope_str)
+        return cls.__members__.get(scope_str)
 
     @classmethod
-    def dict(cls: Type["Scopes"]) -> dict[str, str]:
-        return {scope.value: scope.value for scope in cls}
+    def dict(cls) -> dict[str, str]:
+        return {scope.name: scope.value for scope in cls}
 
 
 class CredentialsValidationForm:
@@ -38,9 +37,14 @@ class CredentialsValidationForm:
         self.client_secret = client_secret
 
         if [scope for scope in self.scopes if Scopes.value_of(scope) is None]:
-            raise ValueError(f"Invalid type of scope {self.scopes} -> [{Scopes.dict()}]")
-
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid type of scope {self.scopes} -> [{Scopes.dict()}]"
+            )
         if Scopes.DEFAULT_USER in self.scopes and self.client_id is None and self.client_secret is None:
             return
         if Scopes.MINECRAFT_SERVER in self.scopes and (self.client_id is None or self.client_secret is None):
-            raise ValueError(f"Not enough arguments")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Not enough arguments"
+            )
