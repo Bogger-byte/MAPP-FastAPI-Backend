@@ -44,19 +44,6 @@ class Token:
         return datetime.utcnow() > self._expire_date
 
 
-# async def _update_token(self, refresh_token: str) -> tuple[str, str]:
-#     data = {
-#         "client_id": AZURE_CLIENT_ID,
-#         "client_secret": AZURE_CLIENT_SECRET,
-#         "refresh_token": refresh_token,
-#         "grant_type": "refresh_token",
-#         "redirect_uri": AZURE_REDIRECT_URI
-#     }
-#     response = requests.post(url=self.token_refresh_url, data=data)
-#     response.raise_for_status()
-#     return response.json()["access_token"], response.json()["user_id"]
-
-
 async def get_authorization_token(
         code: str
 ) -> tuple[str, str]:
