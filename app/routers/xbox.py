@@ -1,5 +1,7 @@
 __all__ = []
 
+import logging
+
 from fastapi import APIRouter, Depends, Query
 from fastapi.responses import RedirectResponse
 
@@ -11,6 +13,7 @@ from app.controllers import minecraft_api as mc_api
 from app.controllers.authentication import get_current_user, require_xbox_account
 
 router = APIRouter()
+logger = logging.getLogger(f"app.{__name__}")
 
 
 @router.post("/register")
@@ -40,7 +43,7 @@ async def get_xbox_oauth_token(
 
 
 @router.get("/check-entitlements/minecraft")
-async def verify_minecraft_entitlements(
+async def check_minecraft_entitlements(
         ms_access_token: str = Query(...)
 ) -> str:
     mc_access_token = await mc_api.get_authorization_token(ms_access_token)
@@ -49,7 +52,7 @@ async def verify_minecraft_entitlements(
 
 
 @router.get("/me")
-async def get_my_user(
+async def get_my_xbox(
         xbox_account: schemas.Xbox = Depends(require_xbox_account)
 ) -> schemas.Xbox:
     return xbox_account
