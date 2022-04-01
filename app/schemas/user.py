@@ -27,6 +27,6 @@ UserDatabase = pydantic_model_creator(
 
 
 User = pydantic_model_creator(
-    User, name="User", exclude=("password", "created_at", "modified_at")
+    User, name="User"
 )
 
