@@ -1,4 +1,11 @@
-__all__ = ["ServerCreate", "ServerUpdate", "Server", "ServerDatabase", "ip_validation_regex"]
+__all__ = [
+    "ServerCreate",
+    "ServerUpdate",
+    "Server",
+    "ServerDatabase",
+    "ServerInfo",
+    "ip_validation_regex"
+]
 
 import socket
 from typing import Optional, Type, Any
@@ -26,7 +33,7 @@ def validate_ip(value: object) -> str:
 class ServerCreate(BaseModel):
     name: str
     host: str
-    api_key: str
+    secret: str
     email: EmailStr
 
     @validator("host")
@@ -37,7 +44,7 @@ class ServerCreate(BaseModel):
 class ServerUpdate(BaseModel):
     name: Optional[str] = None
     host: Optional[str] = None
-    api_key: Optional[str] = None
+    secret: Optional[str] = None
     email: Optional[EmailStr] = None
 
     @validator("host")
@@ -48,6 +55,13 @@ class ServerUpdate(BaseModel):
 ServerDatabase = pydantic_model_creator(
     Server, name="ServerDB"
 )
+
+
 Server = pydantic_model_creator(
-    Server, name="Server", exclude=("key", "created_at", "modified_at")
+    Server, name="Server"
 )
+
+
+class ServerInfo(BaseModel):
+    is_enabled: bool
+    players_online: int
